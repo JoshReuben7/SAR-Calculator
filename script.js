@@ -1,7 +1,17 @@
-function num(id) {
+function cleanValue(id) {
+  const el = document.getElementById(id);
+  if (!el) return 0;
+ 
   return Number(
-    document.getElementById(id).value.replace(/,/g, "")
+    String(el.value)
+      .replace(/,/g, "")
+      .replace(/%/g, "")
+      .trim()
   ) || 0;
+}
+ 
+function num(id) {
+  return cleanValue(id);
 }
  
 function money(value) {
@@ -15,23 +25,12 @@ function getPricingType() {
   return document.querySelector('input[name="pricingType"]:checked').value;
 }
  
-function toggleFields() {
-  const type = getPricingType();
- 
-  document.querySelectorAll(".pass-only").forEach(el => {
-    el.classList.toggle("hidden", type !== "pass");
-  });
- 
-  calculateSAR();
-}
- 
 function calculateSAR() {
   const type = getPricingType();
  
   const annualVolume = num("annualVolume");
   const averageTicket = num("averageTicket");
   const discountRate = num("discountRate");
- 
   const transactionFee = num("transactionFee");
   const authFee = num("authFee");
   const settlementFee = num("settlementFee");
@@ -49,32 +48,17 @@ function calculateSAR() {
   const otherMonthly = num("otherMonthly");
   const geniusHardware = num("geniusHardware");
  
-  const transactions = averageTicket === 0 ? 0 : annualVolume / averageTicket;
-  const amexTransactions = averageTicketAmex === 0 ? 0 : annualVolumeAmex / averageTicketAmex;
+  const transactions = averageTicket ? annualVolume / averageTicket : 0;
+  const amexTransactions = averageTicketAmex ? annualVolumeAmex / averageTicketAmex : 0;
  
-  let sar = 0;
- 
-  if (type === "flat") {
-    sar =
-      (annualVolume * discountRate) +
-      (annualVolumeAmex * discountRateAmex) +
-      (transactions * (transactionFee + authFee)) +
-      (amexTransactions * (transactionFeeAmex + authFee)) +
-      (interchangeFee * (annualVolume + annualVolumeAmex)) +
-      ((serviceFee + geniusSoftware + customerIntelligence + otherMonthly + geniusHardware) * 12) +
-      (annualVolume * settlementFee);
-  }
- 
-  if (type === "pass") {
-    sar =
-      (annualVolume * discountRate) +
-      (annualVolumeAmex * discountRateAmex) +
-      (transactions * (transactionFee + authFee)) +
-      (amexTransactions * (transactionFeeAmex + authFee)) +
-      (interchangeFee * (annualVolume + annualVolumeAmex)) +
-      ((serviceFee + geniusSoftware + customerIntelligence + otherMonthly + geniusHardware) * 12) +
-      (annualVolume * settlementFee);
-  }
+  const sar =
+    (annualVolume * discountRate) +
+    (annualVolumeAmex * discountRateAmex) +
+    (transactions * (transactionFee + authFee)) +
+    (amexTransactions * (transactionFeeAmex + authFee)) +
+    (interchangeFee * (annualVolume + annualVolumeAmex)) +
+    ((serviceFee + geniusSoftware + customerIntelligence + otherMonthly + geniusHardware) * 12) +
+    (annualVolume * settlementFee);
  
   document.getElementById("sarResult").textContent = money(sar);
  
@@ -84,40 +68,34 @@ function calculateSAR() {
   `;
 }
  
-document.querySelectorAll('input[name="pricingType"]').forEach(radio => {
-  radio.addEventListener("change", toggleFields);
-});
+function formatVolumeInput(id) {
+  const input = document.getElementById(id);
+  if (!input) return;
  
-document.getElementById("calculateBtn").addEventListener("click", calculateSAR);
+  input.addEventListener("focus", function () {
+    this.value = String(this.value).replace(/,/g, "");
+  });
+ 
+  input.addEventListener("blur", function () {
+    const raw = String(this.value).replace(/,/g, "");
+    if (raw === "" || isNaN(raw)) return;
+ 
+    this.value = Number(raw).toLocaleString("en-US");
+    calculateSAR();
+  });
+ 
+  input.addEventListener("input", calculateSAR);
+}
+ 
+document.querySelectorAll('input[name="pricingType"]').forEach(radio => {
+  radio.addEventListener("change", calculateSAR);
+});
  
 document.querySelectorAll("input").forEach(input => {
   input.addEventListener("input", calculateSAR);
 });
  
-toggleFields();
+formatVolumeInput("annualVolume");
+formatVolumeInput("annualVolumeAmex");
+ 
 calculateSAR();
-
-function formatNumberInput(input) {
-  input.addEventListener("blur", function () {
-    const value = this.value.replace(/,/g, "");
- 
-    if (value === "" || isNaN(value)) return;
- 
-    this.value = Number(value).toLocaleString("en-US");
-  });
- 
-  input.addEventListener("focus", function () {
-    this.value = this.value.replace(/,/g, "");
-  });
-}
- 
-[
-  "annualVolume",
-  "annualVolumeAmex"
-].forEach(id => {
-  const element = document.getElementById(id);
-  if (element) {
-    formatNumberInput(element);
-  }
-});
- 
