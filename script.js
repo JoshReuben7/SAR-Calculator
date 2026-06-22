@@ -1,5 +1,7 @@
 function num(id) {
-  return Number(document.getElementById(id).value) || 0;
+  return Number(
+    document.getElementById(id).value.replace(/,/g, "")
+  ) || 0;
 }
  
 function money(value) {
