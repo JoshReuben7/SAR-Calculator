@@ -150,3 +150,73 @@ button:hover {
     font-size: 30px;
   }
 }
+.home {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(9, 22, 48, 0.75), rgba(9, 22, 48, 0.75)),
+    url("https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+ 
+.home-card {
+  width: min(650px, 95%);
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 24px;
+  padding: 38px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+ 
+.home-card h1 {
+  color: #172033;
+  margin-bottom: 12px;
+}
+ 
+.menu {
+  display: grid;
+  gap: 14px;
+  margin-top: 28px;
+}
+ 
+.menu button {
+  text-align: left;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid #d9e1ec;
+  background: white;
+  color: #172033;
+  font-weight: 700;
+  cursor: pointer;
+}
+ 
+.menu button:first-child {
+  background: #174ea6;
+  color: white;
+}
+ 
+#productionMsg {
+  margin-top: 22px;
+  font-weight: 700;
+  color: #b42318;
+}
+ 
+.back-btn {
+  margin-bottom: 18px;
+  width: auto;
+  padding: 10px 16px;
+}
+ 
+.disabled-field {
+  opacity: 0.35;
+  pointer-events: none;
+  filter: grayscale(1);
+}
+ 
+.hidden {
+  display: none !important;
+}
+ 
