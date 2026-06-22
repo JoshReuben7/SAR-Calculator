@@ -7,23 +7,53 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main id="homePage" class="home">
-    <div class="home-card">
-      <p class="eyebrow">BI HUB Home Page</p>
-      <h1>BUSINESS INTELLIGENCE PRODUCT</h1>
-      <p>Select a tool below. Only SAR Calculator is currently active.</p>
+  <header class="top-header">
+    BUSINESS INTELLIGENCE PRODUCTS
+</header>
  
-      <div class="menu">
-        <button onclick="openCalculator()">SAR Calculation</button>
-        <button onclick="showInProduction()">FAQ</button>
-        <button onclick="showInProduction()">Processing Account Lookup</button>
-        <button onclick="showInProduction()">Rooftop Lookup</button>
-        <button onclick="showInProduction()">SAR Chatbot</button>
-      </div>
+<div class="layout">
  
-      <p id="productionMsg"></p>
-    </div>
-  </main>
+    <aside class="sidebar">
+ 
+        <div class="sidebar-title">
+            HOME SCREEN
+        </div>
+ 
+        <button class="nav-btn active" onclick="openCalculator()">
+            SAR Calculation
+        </button>
+ 
+        <button class="nav-btn disabled" onclick="showInProduction()">
+            FAQ
+            <span>In Production</span>
+        </button>
+ 
+        <button class="nav-btn disabled" onclick="showInProduction()">
+            Processing Account Lookup
+            <span>In Production</span>
+        </button>
+ 
+        <button class="nav-btn disabled" onclick="showInProduction()">
+            Rooftop Lookup
+            <span>In Production</span>
+        </button>
+ 
+        <button class="nav-btn disabled" onclick="showInProduction()">
+            SAR Chatbot
+            <span>In Production</span>
+        </button>
+ 
+    </aside>
+ 
+    <main id="homePage" class="content home-content">
+ 
+        <h1>Business Intelligence Products</h1>
+ 
+        <p>Select a product from the menu on the left.</p>
+ 
+        <p id="productionMsg"></p>
+ 
+    </main>
  
   <main id="calculatorPage" class="app hidden">
     <button class="back-btn" onclick="goHome()">← Back Home</button>
@@ -50,12 +80,12 @@
  
     <form class="grid card">
       <div class="field">
-        <label>Annual Volume</label>
+        <label>$Annual Volume</label>
         <input id="annualVolume" type="text" value="1,000,000" inputmode="decimal" />
       </div>
  
       <div class="field">
-        <label>Average Ticket</label>
+        <label>$Average Ticket</label>
         <input id="averageTicket" type="number" value="100" step="0.01" />
       </div>
  
@@ -70,12 +100,12 @@
       </div>
  
       <div class="field flat-field">
-        <label>Annual Volume Amex</label>
+        <label>$Annual Volume Amex</label>
         <input id="annualVolumeAmex" type="text" value="10,000" inputmode="decimal" />
       </div>
  
       <div class="field flat-field">
-        <label>Average Ticket Amex</label>
+        <label>$Average Ticket Amex</label>
         <input id="averageTicketAmex" type="number" value="100" step="0.01" />
       </div>
  
