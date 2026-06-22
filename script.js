@@ -27,6 +27,14 @@ function openCalculator() {
     calculateSAR();
 }
  
+function goHome() {
+ 
+    document.getElementById("calculatorPage").classList.add("hidden");
+    document.getElementById("homePage").classList.remove("hidden");
+ 
+    window.scrollTo(0, 0);
+}
+ 
 function showInProduction() {
  
     document.getElementById("productionMsg").innerHTML =
