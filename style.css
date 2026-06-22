@@ -313,4 +313,20 @@ button:hover {
     pointer-events: none;
     filter: grayscale(1);
 }
+.money-input {
+  position: relative;
+}
+ 
+.money-input span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #667085;
+  font-weight: 700;
+}
+ 
+.money-input input {
+  padding-left: 28px;
+}
  
