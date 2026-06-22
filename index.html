@@ -81,12 +81,18 @@
     <form class="grid card">
       <div class="field">
         <label>$Annual Volume</label>
+          <div class="money-input">
+              <span>$</span>        
         <input id="annualVolume" type="text" value="1,000,000" inputmode="decimal" />
+          </div>
       </div>
  
       <div class="field">
-        <label>$Average Ticket</label>
-        <input id="averageTicket" type="number" value="100" step="0.01" />
+          <label>Average Ticket</label>
+          <div class="money-input">
+              <span>$</span>
+              <input id="averageTicket" type="number" value="100" step="0.01" />
+          </div>
       </div>
  
       <div class="field">
@@ -101,7 +107,10 @@
  
       <div class="field flat-field">
         <label>$Annual Volume Amex</label>
+          <div class="money-input">
+              <span>$</span>        
         <input id="annualVolumeAmex" type="text" value="10,000" inputmode="decimal" />
+          </div>
       </div>
  
       <div class="field flat-field">
