@@ -94,3 +94,28 @@ document.querySelectorAll("input").forEach(input => {
  
 toggleFields();
 calculateSAR();
+
+function formatNumberInput(input) {
+  input.addEventListener("blur", function () {
+    const value = this.value.replace(/,/g, "");
+ 
+    if (value === "" || isNaN(value)) return;
+ 
+    this.value = Number(value).toLocaleString("en-US");
+  });
+ 
+  input.addEventListener("focus", function () {
+    this.value = this.value.replace(/,/g, "");
+  });
+}
+ 
+[
+  "annualVolume",
+  "annualVolumeAmex"
+].forEach(id => {
+  const element = document.getElementById(id);
+  if (element) {
+    formatNumberInput(element);
+  }
+});
+ 
