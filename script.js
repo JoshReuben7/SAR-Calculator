@@ -19,20 +19,21 @@ function getPricingType() {
 }
  
 function openCalculator() {
-  document.getElementById("homePage").classList.add("hidden");
-  document.getElementById("calculatorPage").classList.remove("hidden");
-  updatePricingFields();
-  calculateSAR();
-}
  
-function goHome() {
-  document.getElementById("calculatorPage").classList.add("hidden");
-  document.getElementById("homePage").classList.remove("hidden");
+    document.getElementById("homePage").classList.add("hidden");
+    document.getElementById("calculatorPage").classList.remove("hidden");
+ 
+    updatePricingFields();
+    calculateSAR();
 }
  
 function showInProduction() {
-  document.getElementById("productionMsg").textContent =
-    "This section is currently in production.";
+ 
+    document.getElementById("productionMsg").innerHTML =
+        "This product is currently in production and not yet available.";
+ 
+    document.getElementById("homePage").classList.remove("hidden");
+    document.getElementById("calculatorPage").classList.add("hidden");
 }
  
 function updatePricingFields() {
