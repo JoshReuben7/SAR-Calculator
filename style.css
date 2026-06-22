@@ -1,0 +1,152 @@
+:root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #172033;
+  --muted: #667085;
+  --primary: #174ea6;
+  --border: #d9e1ec;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  width: min(1100px, 94%);
+  margin: 32px auto;
+}
+
+.hero {
+  background: linear-gradient(135deg, #12284c, #174ea6);
+  color: white;
+  padding: 32px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 12px;
+  margin: 0 0 8px;
+  opacity: 0.8;
+}
+
+h1 {
+  margin: 0;
+  font-size: 38px;
+}
+
+.sub {
+  max-width: 700px;
+  opacity: 0.9;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(16, 24, 40, 0.06);
+}
+
+.toggle {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.toggle label {
+  cursor: pointer;
+}
+
+.toggle input {
+  display: none;
+}
+
+.toggle span {
+  display: inline-block;
+  padding: 12px 20px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-weight: 700;
+}
+
+.toggle input:checked + span {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #344054;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+button {
+  grid-column: 1 / -1;
+  border: none;
+  background: var(--primary);
+  color: white;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.92;
+}
+
+.result h2 {
+  font-size: 42px;
+  margin: 5px 0 16px;
+}
+
+#breakdown {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+}
