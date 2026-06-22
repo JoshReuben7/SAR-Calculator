@@ -3,15 +3,8 @@ function cleanValue(id) {
   if (!el) return 0;
  
   return Number(
-    String(el.value)
-      .replace(/,/g, "")
-      .replace(/%/g, "")
-      .trim()
+    String(el.value).replace(/,/g, "").replace(/%/g, "").trim()
   ) || 0;
-}
- 
-function num(id) {
-  return cleanValue(id);
 }
  
 function money(value) {
@@ -25,43 +18,83 @@ function getPricingType() {
   return document.querySelector('input[name="pricingType"]:checked').value;
 }
  
+function openCalculator() {
+  document.getElementById("homePage").classList.add("hidden");
+  document.getElementById("calculatorPage").classList.remove("hidden");
+  updatePricingFields();
+  calculateSAR();
+}
+ 
+function goHome() {
+  document.getElementById("calculatorPage").classList.add("hidden");
+  document.getElementById("homePage").classList.remove("hidden");
+}
+ 
+function showInProduction() {
+  document.getElementById("productionMsg").textContent =
+    "This section is currently in production.";
+}
+ 
+function updatePricingFields() {
+  const type = getPricingType();
+ 
+  document.querySelectorAll(".pass-field").forEach(field => {
+    field.classList.toggle("disabled-field", type === "flat");
+  });
+ 
+  calculateSAR();
+}
+ 
 function calculateSAR() {
   const type = getPricingType();
  
-  const annualVolume = num("annualVolume");
-  const averageTicket = num("averageTicket");
-  const discountRate = num("discountRate");
-  const transactionFee = num("transactionFee");
-  const authFee = num("authFee");
-  const settlementFee = num("settlementFee");
+  const annualVolume = cleanValue("annualVolume");
+  const averageTicket = cleanValue("averageTicket");
+  const discountRate = cleanValue("discountRate");
  
-  const annualVolumeAmex = num("annualVolumeAmex");
-  const averageTicketAmex = num("averageTicketAmex");
-  const discountRateAmex = num("discountRateAmex");
-  const transactionFeeAmex = num("transactionFeeAmex");
+  const authFee = cleanValue("authFee");
+  const annualVolumeAmex = cleanValue("annualVolumeAmex");
+  const averageTicketAmex = cleanValue("averageTicketAmex");
+  const discountRateAmex = cleanValue("discountRateAmex");
+  const serviceFee = cleanValue("serviceFee");
+  const geniusSoftware = cleanValue("geniusSoftware");
+  const interchangeFee = cleanValue("interchangeFee");
+  const customerIntelligence = cleanValue("customerIntelligence");
+  const otherMonthly = cleanValue("otherMonthly");
+  const geniusHardware = cleanValue("geniusHardware");
  
-  const serviceFee = num("serviceFee");
-  const geniusSoftware = num("geniusSoftware");
-  const interchangeFee = num("interchangeFee");
+  const transactionFee = cleanValue("transactionFee");
+  const settlementFee = cleanValue("settlementFee");
+  const transactionFeeAmex = cleanValue("transactionFeeAmex");
  
-  const customerIntelligence = num("customerIntelligence");
-  const otherMonthly = num("otherMonthly");
-  const geniusHardware = num("geniusHardware");
+  const simplifiedPricingFee = cleanValue("simplifiedPricingFee");
+  const associationPricingFee = cleanValue("associationPricingFee");
  
   const transactions = averageTicket ? annualVolume / averageTicket : 0;
   const amexTransactions = averageTicketAmex ? annualVolumeAmex / averageTicketAmex : 0;
  
-  const sar =
-    (annualVolume * discountRate) +
-    (annualVolumeAmex * discountRateAmex) +
-    (transactions * (transactionFee + authFee)) +
-    (amexTransactions * (transactionFeeAmex + authFee)) +
-    (interchangeFee * (annualVolume + annualVolumeAmex)) +
-    ((serviceFee + geniusSoftware + customerIntelligence + otherMonthly + geniusHardware) * 12) +
-    (annualVolume * settlementFee);
+  let sar = 0;
+ 
+  if (type === "flat") {
+    sar =
+      (annualVolume * discountRate) +
+      (annualVolumeAmex * discountRateAmex) +
+      (transactions * authFee) +
+      (amexTransactions * authFee) +
+      (interchangeFee * (annualVolume + annualVolumeAmex)) +
+      ((serviceFee + geniusSoftware + customerIntelligence + otherMonthly + geniusHardware) * 12);
+  } else {
+    sar =
+      (annualVolume * discountRate) +
+      (annualVolumeAmex * discountRateAmex) +
+      (transactions * (transactionFee + authFee + settlementFee)) +
+      (amexTransactions * (transactionFeeAmex + authFee + settlementFee)) +
+      (interchangeFee * (annualVolume + annualVolumeAmex)) +
+      ((serviceFee + geniusSoftware + customerIntelligence + otherMonthly + geniusHardware) * 12) +
+      (annualVolume * (simplifiedPricingFee + associationPricingFee));
+  }
  
   document.getElementById("sarResult").textContent = money(sar);
- 
   document.getElementById("breakdown").innerHTML = `
     <strong>Pricing Type:</strong> ${type === "flat" ? "Flat Rate" : "Pass Through"}<br>
     <strong>SAR:</strong> ${money(sar)}
@@ -79,16 +112,13 @@ function formatVolumeInput(id) {
   input.addEventListener("blur", function () {
     const raw = String(this.value).replace(/,/g, "");
     if (raw === "" || isNaN(raw)) return;
- 
     this.value = Number(raw).toLocaleString("en-US");
     calculateSAR();
   });
- 
-  input.addEventListener("input", calculateSAR);
 }
  
 document.querySelectorAll('input[name="pricingType"]').forEach(radio => {
-  radio.addEventListener("change", calculateSAR);
+  radio.addEventListener("change", updatePricingFields);
 });
  
 document.querySelectorAll("input").forEach(input => {
@@ -98,4 +128,5 @@ document.querySelectorAll("input").forEach(input => {
 formatVolumeInput("annualVolume");
 formatVolumeInput("annualVolumeAmex");
  
+updatePricingFields();
 calculateSAR();
